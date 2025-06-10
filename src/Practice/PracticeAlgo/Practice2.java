@@ -259,7 +259,7 @@ public class Practice2 {
         return dp[0];
     }
 
-    //find length of maximum increasing subsequence from inout int[]
+    //find length of longest increasing subsequence from inout int[]
     public int maxSequemceLength(int[] num){
         int res = 0;
         int[] dp = new int[num.length];
