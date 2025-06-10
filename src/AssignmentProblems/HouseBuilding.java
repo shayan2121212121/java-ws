@@ -26,4 +26,12 @@ public class HouseBuilding {
 
         return minEffort;
     }
+    public static void main(String[] args) {
+        HouseBuilding solver = new HouseBuilding();
+        String[] input = {
+            "54454",
+            "61551"
+        };       
+        System.out.println(solver.getMinimum(input)); //7
+    }
 }
