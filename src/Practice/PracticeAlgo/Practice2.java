@@ -89,7 +89,7 @@ public class Practice2 {
         return resuList;
     }
 
-    //word from dictionary of words
+    //if possible to create word from dictionary of words
     public boolean wordBreak(String word, List<String> wordDict){
 
         boolean[] dp = new boolean[word.length()+1];
@@ -107,6 +107,65 @@ public class Practice2 {
         }
 
         return dp[word.length()];
+    }
+
+    //count ways to construct word from array of strings
+    public int countConstruct(String target, String[] wordBank){
+        int[] dp = new int[target.length()+1];
+        Arrays.fill(dp, 0);
+        dp[0]=1;
+        for(int i = 0; i<=target.length();i++){
+            for(String word: wordBank){
+                if(target.substring(i, i+word.length()).equals(word)){
+                    dp[i+word.length()] = dp[i+word.length()] + dp[i];
+                }
+            }
+        }
+        return dp[target.length()];
+    }
+
+    //allConstruct function to return 2D array of all the ways target word can be created from wordbank
+    public String[][] allConstruct(String target, String[] wordBank){
+        // Table where each element is a list of lists of strings (ways to construct substrings)
+        List<List<List<String>>> table = new ArrayList<>();
+
+        // Initialize table
+        for (int i = 0; i <= target.length(); i++) {
+            table.add(new ArrayList<>());
+        }
+
+        // Base case: empty string has one way (empty list)
+        table.get(0).add(new ArrayList<>());
+
+        for (int i = 0; i <= target.length(); i++) {
+            for (String word : wordBank) {
+                // If word matches the substring starting at position i
+                if (i + word.length() <= target.length() &&
+                    target.substring(i, i + word.length()).equals(word)) {
+
+                    List<List<String>> newCombinations = new ArrayList<>();
+
+                    // Add current word to the end of each combination at table[i]
+                    for (List<String> sublist : table.get(i)) {
+                        List<String> newList = new ArrayList<>(sublist);
+                        newList.add(word);
+                        newCombinations.add(newList);
+                    }
+
+                    // Add new combinations to table[i + word.length()]
+                    table.get(i + word.length()).addAll(newCombinations);
+                }
+            }
+        }
+
+        // Convert List<List<String>> to String[][]
+        List<List<String>> result = table.get(target.length());
+        String[][] resultArray = new String[result.size()][];
+        for (int i = 0; i < result.size(); i++) {
+            resultArray[i] = result.get(i).toArray(new String[0]);
+        }
+
+        return resultArray;
     }
 
     //Combination Sum primary method 
